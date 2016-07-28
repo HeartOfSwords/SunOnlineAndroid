@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.sunonline.application">
+    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"></uses-permission>
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/logo"
+        android:label="sunOnline"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
+        <activity
+            android:name="io.vov.vitamio.activity.InitActivity"
+            android:configChanges="orientation|screenSize|smallestScreenSize|keyboard|keyboardHidden|navigation"
+            android:launchMode="singleTop"
+            android:theme="@android:style/Theme.NoTitleBar"
+            android:windowSoftInputMode="stateAlwaysHidden"/>
+
+        <!--欢迎页面-->
+        <activity android:name="com.sunonline.activity.WelcomeActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+        </activity>
+
+        <!-- 主页面 -->
+        <activity android:name="com.sunonline.activity.MainActivity">
+
+
+        </activity>
+        <!-- 播放视频页面 -->
+        <activity android:name="com.sunonline.activity.VideoPlayActivity" android:configChanges="orientation|screenLayout|screenSize" >
+
+        </activity>
+
+
+        <!-- 公益课堂三级页面 -->
+        <activity android:name="com.sunonline.activity.PublicTeachActivity">
+
+        </activity>
+        <!-- 登录页面 -->
+        <activity android:name="com.sunonline.activity.LoginActivity">
+
+        </activity>
+        <!-- 修改用户信息页面 -->
+        <activity android:name="com.sunonline.activity.UpdateUserInfoActivity">
+
+        </activity>
+
+        <receiver android:name="com.sunonline.boradReciver.NotifyNetBoradCast">
+            <intent-filter>
+
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"></action>
+
+            </intent-filter>
+
+        </receiver>
+
+        <!--下面的是测试用到-->
+        <activity android:name="com.test.PaserHtml">
+
+
+        </activity>
+
+        <activity android:name="com.test.SwipeLayoutActivity1">
+
+        </activity>
+
+        <activity android:name="com.test.SwipeLayoutActivity2">
+
+
+        </activity>
+
+        <activity android:name="com.test.testActivity">
+
+        </activity>
+
+    </application>
+
+</manifest>
