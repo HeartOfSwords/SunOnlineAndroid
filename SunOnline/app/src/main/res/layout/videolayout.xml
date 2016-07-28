@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#E5E5E5"
+    >
+    <include layout="@layout/videoplay_top"/>
+    <FrameLayout
+        android:layout_marginTop="0dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <SurfaceView
+            android:id="@+id/surfaceview"
+            android:layout_width="match_parent"
+            android:layout_height="200dp" />
+
+        <ProgressBar
+            android:id="@+id/progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="visible"
+            />
+
+        <LinearLayout
+            android:id="@+id/control_menu"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_gravity="right|bottom"
+            android:background="#3F000000"
+            >
+            <ImageView
+                android:id="@+id/pause_image"
+                android:layout_gravity="center"
+                android:layout_width="30dp"
+                android:layout_height="match_parent"
+                android:src="@drawable/pause"
+                />
+            <SeekBar
+                android:layout_gravity="center"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:id="@+id/seekBar" />
+            <TextView
+                android:id="@+id/current_value"
+                android:layout_gravity="center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="00:00"
+                android:textColor="@android:color/white"
+                />
+            <TextView
+                android:layout_gravity="center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/white"
+                android:text="/"
+                />
+            <TextView
+                android:id="@+id/total_value"
+                android:layout_marginRight="10dp"
+                android:layout_gravity="center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="00:00"
+                android:textColor="@android:color/white"
+                />
+        </LinearLayout>
+
+        <ImageView
+            android:layout_marginRight="10dp"
+            android:id="@+id/fullscreen"
+            android:src="@drawable/screenfull"
+            android:background="#3F000000"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="right|top" />
+
+    </FrameLayout>
+
+<TextView
+    android:id="@+id/video_introduce"
+    android:padding="5dp"
+    android:layout_marginTop="10dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="视频简介:"
+    android:background="@android:color/white"
+    android:ellipsize="end"
+    />
+<TextView
+    android:layout_marginTop="10dp"
+    android:layout_width="match_parent"
+    android:layout_height="30dp"
+    android:background="@android:color/white"
+    android:text="评论区"
+    android:gravity="center"
+    />
+
+</LinearLayout>

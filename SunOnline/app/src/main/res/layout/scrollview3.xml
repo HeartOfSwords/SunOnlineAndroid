@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
+    <!--  scaleType 图片进行缩放，以一定的方式进行展示
+        fitXY为拉图片xy后面的效果
+    -->
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:src="@drawable/index_4"
+        android:scaleType="fitXY"
+        />
+</LinearLayout>
