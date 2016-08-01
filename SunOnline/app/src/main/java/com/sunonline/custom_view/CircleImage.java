@@ -14,6 +14,7 @@ import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.widget.ImageView;
 
+import com.meg7.widget.CustomShapeImageView;
 import com.sunonline.application.R;
 
 import java.io.IOException;
@@ -72,6 +73,8 @@ public class CircleImage extends ImageView {
 
     public void setmSrc(Bitmap mSrc) {
         this.mSrc = mSrc;
+        requestLayout();
+        invalidate();
     }
 
     public int getmRadius() {
@@ -209,7 +212,11 @@ public class CircleImage extends ImageView {
                 /**
                  * 长度如果不一致，按小的值进行压缩
                  */
-                mSrc = Bitmap.createScaledBitmap(mSrc, min, min, false);//首先先压缩图片的宽高
+                if (null!=mSrc){
+                    mSrc = Bitmap.createScaledBitmap(mSrc, min, min, false);//首先先压缩图片的宽高
+                }else {
+                    mSrc = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.c), min, min, false);//首先先压缩图片的宽高
+                }
 
                 canvas.drawBitmap(createCircleImage(mSrc, min), 0, 0, null);//重新绘制图片
                 break;
@@ -278,9 +285,9 @@ public class CircleImage extends ImageView {
      * @param circleImage   设置组件id
      * @param default_resoursedId  设置资源id
      */
-    public static void setImageResourse(final Activity activity,final String userAvatar_address, final CircleImage circleImage,int default_resoursedId) {
+    public static void setImageResourse(final Activity activity,final String userAvatar_address, final CustomShapeImageView circleImage, final int default_resoursedId) {
         if ("".equals(userAvatar_address)){
-            circleImage.setmSrc(BitmapFactory.decodeResource(activity.getResources(), default_resoursedId));
+            circleImage.setImageResource(default_resoursedId);
         }else {
             new Thread(){
                 @Override
@@ -295,18 +302,25 @@ public class CircleImage extends ImageView {
                         public void onFailure(Call call, IOException e) {
                             activity.runOnUiThread(new Runnable() {
                                 @Override
-                                public void run() {
-                                    circleImage.setmSrc(BitmapFactory.decodeResource(activity.getResources(), R.drawable.c));
+                                public void run()
+                                {
+                                    circleImage.setImageResource(default_resoursedId);
                                 }
                             });
                         }
                         @Override
                         public void onResponse(Call call, Response response) throws IOException {
-                            final InputStream inputStream= response.body().byteStream();
+                            InputStream inputStream= response.body().byteStream();
+                            final Bitmap bitmap=BitmapFactory.decodeStream(inputStream);
                             activity.runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    circleImage.setmSrc(BitmapFactory.decodeStream(inputStream));
+                                    if (null==bitmap){
+                                        circleImage.setImageResource(default_resoursedId);
+                                    }else
+                                    {
+                                        circleImage.setImageBitmap(bitmap);
+                                    }
                                 }
                             });
 

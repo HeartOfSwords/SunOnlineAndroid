@@ -27,99 +27,135 @@
 
             <!--公益课堂区域 -->
             <LinearLayout
-                android:background="#fff"
-                android:layout_marginTop="10dp"
+                android:background="@android:color/white"
+                android:layout_marginTop="5dp"
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
+                android:layout_height="50dp"
                 android:orientation="horizontal"
                 android:gravity="center_vertical"
                 >
+                <ImageView
+                    android:layout_marginLeft="10dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/mooc_index_logo"
+                    />
                 <TextView
-                    android:layout_marginLeft="20dp"
+                    android:layout_marginLeft="10dp"
                     android:gravity="center"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:text="公益课堂"
+                    android:textSize="20sp"
                     />
             </LinearLayout>
             <android.support.v7.widget.RecyclerView
                 android:background="#fff"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="3dp"
                 android:id="@+id/public_teach"
                 android:layout_width="match_parent"
-                android:layout_height="550dp">
+                android:layout_height="850dp">
             </android.support.v7.widget.RecyclerView>
             <!-- 影视老司机区域-->
             <LinearLayout
                 android:background="#fff"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="5dp"
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
+                android:layout_height="50dp"
                 android:orientation="horizontal"
                 android:gravity="center_vertical"
                 >
+                <ImageView
+                    android:layout_marginLeft="10dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/old_driver_index_logo"
+                    />
                 <TextView
-                    android:layout_marginLeft="20dp"
+                    android:layout_marginLeft="10dp"
                     android:gravity="center"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:text="影视老司机"
+                    android:textSize="20sp"
                     />
             </LinearLayout>
             <android.support.v7.widget.RecyclerView
                 android:background="#fff"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="3dp"
                 android:id="@+id/video_driver"
                 android:layout_width="match_parent"
-                android:layout_height="300dp">
+                android:layout_height="450dp">
             </android.support.v7.widget.RecyclerView>
             <!--higo大学季-->
             <LinearLayout
                 android:background="#fff"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="5dp"
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
+                android:layout_height="50dp"
                 android:orientation="horizontal"
                 android:gravity="center_vertical"
                 >
+                <ImageView
+                    android:layout_marginLeft="10dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/higo_index_logo"
+                    />
                 <TextView
-                    android:layout_marginLeft="20dp"
+                    android:layout_marginLeft="10dp"
                     android:gravity="center"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:text="higo大学季"
+                    android:textSize="20sp"
                     />
             </LinearLayout>
             <android.support.v7.widget.RecyclerView
                 android:background="#fff"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="3dp"
                 android:id="@+id/higo_college"
                 android:layout_width="match_parent"
-                android:layout_height="300dp">
+                android:layout_height="450dp">
             </android.support.v7.widget.RecyclerView>
             <!--高校最强音-->
             <LinearLayout
                 android:background="#fff"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="5dp"
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
+                android:layout_height="50dp"
                 android:orientation="horizontal"
                 android:gravity="center_vertical"
                 >
+                <ImageView
+                    android:layout_marginLeft="10dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/collegevoice_index_logo"
+                    />
                 <TextView
-                    android:layout_marginLeft="20dp"
+                    android:layout_marginLeft="10dp"
                     android:gravity="center"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:text="高校最强音"
+                    android:textSize="20sp"
                     />
             </LinearLayout>
             <android.support.v7.widget.RecyclerView
                 android:background="#fff"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="3dp"
                 android:id="@+id/colloge_most_voice"
                 android:layout_width="match_parent"
-                android:layout_height="300dp">
+                android:layout_height="450dp">
             </android.support.v7.widget.RecyclerView>
 
         </LinearLayout>

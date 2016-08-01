@@ -20,6 +20,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.meg7.widget.CustomShapeImageView;
 import com.sunonline.application.R;
 import com.sunonline.bean.UserInfo;
 import com.sunonline.custom_view.CircleImage;
@@ -31,13 +32,14 @@ import com.sunonline.util.WindowsUtill;
 
 /**
  * 首界面显示
+ * android组件的绘制发生在onResune方法中进行回调而完成的
  */
 public class MainActivity extends FragmentActivity implements View.OnClickListener{
     private SlideMenu slideMenu; //整体的侧滑按钮
     private LinearLayout left_login_info;  //左侧的登录信息部分
     private LinearLayout left_person_info; //左侧的个人信息部分
     private Button left_menu_login; //左侧的登录按钮
-    private CircleImage user_img;  //用户头像
+    private CustomShapeImageView user_img;  //用户头像
     private TextView user_name;   //用户姓名
 
     private RelativeLayout left_menu_video; //视频区域
@@ -66,7 +68,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         left_login_info= (LinearLayout) findViewById(R.id.left_login_info);
         left_person_info= (LinearLayout) findViewById(R.id.left_person_info);
         left_menu_login= (Button) findViewById(R.id.left_menu_login);
-        user_img= (CircleImage) findViewById(R.id.user_img);
+        user_img= (CustomShapeImageView) findViewById(R.id.user_img);
         user_name= (TextView) findViewById(R.id.user_name);
 
         //左边菜单部分下方的四个按钮
@@ -90,7 +92,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 @Override
                 public void run() {
                     UserInfo userInfo= UpdateUserInfoActivity.connectUrl(Information.BASE_URL + "/user/login?inputString=" + user_email + "&userpwd=" + user_password, MainActivity.this);
-                    if (null!=userInfo&&user_email.equals(userInfo.getUserEmail())){ //判定是否获取到真实的信息
+                    if (null!=userInfo&&user_email.equals(userInfo.getUserMobile())){ //判定是否获取到真实的信息
                         Information.IS_LOGIN=true;
                         Information.userInfo=userInfo;
                         left_person_info.setVisibility(View.VISIBLE);
@@ -103,7 +105,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                                 public void run() {
                                     user_name.setText(Information.userInfo.getUsernickName());
                                     String userAvatar_address = Information.userInfo.getUserAvatar().trim();
-                                    CircleImage.setImageResourse(MainActivity.this, "", user_img, R.drawable.c);
+                                    CircleImage.setImageResourse(MainActivity.this, userAvatar_address, user_img, R.drawable.c);
                                 }
                             });
                         }
@@ -327,7 +329,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode==KeyEvent.KEYCODE_BACK&&event.getRepeatCount()==0){
             final AlertDialog.Builder builder=new AlertDialog.Builder(this);
-            builder.setMessage("确认退出？");
+            builder.setMessage("您确认退出太阳在线吗？");
             builder.setNegativeButton("确定", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
@@ -335,7 +337,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                     finish();
                 }
             });
-            builder.setPositiveButton("取消", new DialogInterface.OnClickListener() {
+            builder.setPositiveButton("再看一看", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     dialog.dismiss();

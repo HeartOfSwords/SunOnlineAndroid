@@ -24,6 +24,7 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.3.0'
     compile 'com.android.support:recyclerview-v7:23.1.1'
+    compile 'com.bartoszlipinski.recyclerviewheader:library:1.2.0'
     compile project(':vitamio')
     compile files('src/main/java/lib/nineoldandroids-2.4.0.jar')
     compile 'com.squareup.okhttp3:okhttp:3.4.1'
@@ -32,4 +33,5 @@ dependencies {
     compile files('src/main/java/lib/jsoup-1.8.3.jar')
     compile 'com.android.support:cardview-v7:23.1.1'
     compile 'com.android.support:design:23.1.1'
+    compile 'com.mostafagazar:customshapeimageview:1.0.4'
 }

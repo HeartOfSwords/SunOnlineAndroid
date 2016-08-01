@@ -18,7 +18,7 @@
             android:layout_width="500dp"
             android:layout_height="wrap_content"
             app:cardElevation="5dp"
-            app:cardBackgroundColor="#81000000"
+            app:cardBackgroundColor="#fa1C86EE"
             app:cardCornerRadius="10dp"
             >
             <LinearLayout
@@ -44,13 +44,14 @@
                         android:src="@android:drawable/ic_delete"
                         android:background="@android:color/transparent"
                         />
-                    <com.sunonline.custom_view.CircleImage
-                        app:type="circle"
-                        app:src="@drawable/c"
+                    <com.meg7.widget.CustomShapeImageView
                         android:layout_width="70dp"
                         android:layout_height="70dp"
-                        android:layout_gravity="center_horizontal" />
-
+                        android:src="@drawable/c"
+                        app:shape="circle"
+                        android:scaleType="centerCrop"
+                        android:layout_gravity="center_horizontal"
+                        />
                     <TextView
                         android:layout_marginTop="10dp"
                         android:layout_marginBottom="10dp"
@@ -185,7 +186,7 @@
                     android:layout_height="match_parent"
                     android:text="注 册"
                     android:textColor="@android:color/white"
-                    android:background="@android:color/holo_blue_light"
+                    android:background="#FF8C00"
                     />
             </LinearLayout>
 

@@ -8,7 +8,7 @@
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/higo_college_list"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="3dp"
         android:background="@android:color/white"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">

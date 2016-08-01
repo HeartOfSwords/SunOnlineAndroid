@@ -44,14 +44,15 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             >
-            <com.sunonline.custom_view.CircleImage
-                android:layout_gravity="center"
+            <com.meg7.widget.CustomShapeImageView
                 android:id="@+id/user_img"
-                app:src="@drawable/c"
-                app:borderRadius="0dp"
-                app:type="circle"
+                android:layout_gravity="center"
                 android:layout_width="70dp"
-                android:layout_height="70dp" />
+                android:layout_height="70dp"
+                android:src="@drawable/c"
+                app:shape="circle"
+                android:scaleType="centerCrop"
+                />
             <TextView
                 android:id="@+id/user_name"
                 android:gravity="center"

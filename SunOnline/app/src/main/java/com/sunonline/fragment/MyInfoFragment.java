@@ -19,6 +19,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.meg7.widget.CustomShapeImageView;
 import com.sunonline.activity.LoginActivity;
 import com.sunonline.activity.MainActivity;
 import com.sunonline.activity.UpdateUserInfoActivity;
@@ -40,7 +41,7 @@ public class MyInfoFragment extends Fragment implements View.OnClickListener{
     private Button myinfo_login; //登录按钮
     private LinearLayout user_info_go_login_area; //用户登录区域
     private LinearLayout user_info_login_after_area;//用户信息区域
-    private CircleImage my_info_area_user_image;//登录用户的头像
+    private CustomShapeImageView my_info_area_user_image;//登录用户的头像
     private TextView my_info_area_user_name; //登录用户名
     private TextView data_time; //登录日期
     private EditText my_info_area_user_email; //用户注册邮箱
@@ -57,7 +58,7 @@ public class MyInfoFragment extends Fragment implements View.OnClickListener{
         user_info_go_login_area= (LinearLayout) view.findViewById(R.id.user_info_go_login_area);
         myinfo_login= (Button)view.findViewById(R.id.myinfo_login);
         user_info_login_after_area= (LinearLayout) view.findViewById(R.id.user_info_login_after_area);
-        my_info_area_user_image= (CircleImage) view.findViewById(R.id.my_info_area_user_image);
+        my_info_area_user_image= (CustomShapeImageView) view.findViewById(R.id.my_info_area_user_image);
         my_info_area_user_name= (TextView) view.findViewById(R.id.my_info_area_user_name);
         data_time= (TextView) view.findViewById(R.id.data_time);
         my_info_area_user_email= (EditText) view.findViewById(R.id.my_info_area_user_email);
@@ -86,7 +87,7 @@ public class MyInfoFragment extends Fragment implements View.OnClickListener{
      * 转换到未登录的视图
      */
     private void switchNoLogin() {
-        my_info_all.setBackgroundColor(Color.WHITE);
+        //my_info_all.setBackgroundColor(Color.WHITE);
         myinfo_login.setOnClickListener(this);
         user_info_go_login_area.setVisibility(View.VISIBLE);
         user_info_login_after_area.setVisibility(View.GONE);
@@ -105,7 +106,7 @@ public class MyInfoFragment extends Fragment implements View.OnClickListener{
         //设置用户昵称
         my_info_area_user_name.setText(Information.userInfo.getUsernickName());
         //设置用户图片
-        CircleImage.setImageResourse(getActivity(), "", my_info_area_user_image, R.drawable.c);
+        CircleImage.setImageResourse(getActivity(),Information.userInfo.getUserAvatar(), my_info_area_user_image, R.drawable.c);
     }
 
     @Override
@@ -152,7 +153,7 @@ public class MyInfoFragment extends Fragment implements View.OnClickListener{
         }else if (requestCode==2){ //修改信息成功后执行
             my_info_area_user_name.setText(Information.userInfo.getUsernickName());
             my_info_area_user_email.setText(Information.userInfo.getUserEmail());
-            CircleImage.setImageResourse(getActivity(), "", my_info_area_user_image, R.drawable.c);
+            CircleImage.setImageResourse(getActivity(), Information.userInfo.getUserAvatar(), my_info_area_user_image, R.drawable.c);
             my_info_area_user_email.setText(Information.userInfo.getUserEmail());
             MainActivity activity2= (MainActivity) getActivity();
             activity2.updateUserInfo();

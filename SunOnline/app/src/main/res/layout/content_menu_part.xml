@@ -52,7 +52,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
-                android:text="HIGO大学季"
+                android:text="院长访谈录"
                 />
             <TextView
                 android:id="@+id/highschool_voice_text"

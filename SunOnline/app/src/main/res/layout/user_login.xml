@@ -28,13 +28,14 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     >
-                    <com.sunonline.custom_view.CircleImage
-                        android:layout_marginTop="20dp"
+                    <com.meg7.widget.CustomShapeImageView
                         android:id="@+id/login_image"
-                        app:type="circle"
-                        app:src="@drawable/c"
+                        android:layout_marginTop="20dp"
                         android:layout_width="150dp"
                         android:layout_height="150dp"
+                        android:src="@drawable/c"
+                        app:shape="circle"
+                        android:scaleType="centerCrop"
                         />
                     <TextView
                         android:layout_marginTop="10dp"
