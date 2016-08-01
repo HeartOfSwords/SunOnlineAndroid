@@ -5,26 +5,42 @@ import android.content.pm.ActivityInfo;
 import android.graphics.PixelFormat;
 import android.media.AudioManager;
 import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.AnimationSet;
+import android.view.animation.ScaleAnimation;
+import android.view.animation.TranslateAnimation;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.bartoszlipinski.recyclerviewheader.RecyclerViewHeader;
+import com.sunonline.adpter.ReviewAdpter;
 import com.sunonline.application.R;
 import com.sunonline.bean.MoocRecom;
+import com.sunonline.bean.ReviewBean;
 import com.sunonline.bean.Video;
+import com.sunonline.global.Information;
+import com.sunonline.util.Mydivider;
 import com.sunonline.util.WindowsUtill;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -32,6 +48,7 @@ import io.vov.vitamio.LibsChecker;
 import io.vov.vitamio.MediaPlayer;
 
 /**
+ * 暂定解决recycleview添加上数据的解决方案：通过设置为不添加动画效果的，同时不进行头部滚动的方式进行
  * Created by duanjigui on 2016/7/10.
  */
 public class VideoPlayActivity extends Activity implements SurfaceHolder.Callback,View.OnClickListener{
@@ -53,10 +70,15 @@ public class VideoPlayActivity extends Activity implements SurfaceHolder.Callbac
     private ImageView go_back;//返回按钮
     private String video_name;//视频名称
     private String video_intro;//视频简介
-    private LinearLayout play_top;//视频顶部的自定义菜单
     private SimpleDateFormat simpleDateFormat=new SimpleDateFormat("mm:ss");//格式化时间
     private  Timer timer=new Timer();
     private boolean isNotCancel=true;//用于标示是否取消任务
+    private RecyclerView recyclerView; //评论部分的recycleview
+    private List<ReviewBean> list=new ArrayList<>(); //评论的数据
+    private Button send; //发送按钮
+    private TextView message; //要发送的消息
+    private ReviewAdpter adpter;//适配器
+    private LinearLayout review_send_area; //评论发送区域
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,14 +112,78 @@ public class VideoPlayActivity extends Activity implements SurfaceHolder.Callbac
         current_value= (TextView) findViewById(R.id.current_value);
         total_value= (TextView) findViewById(R.id.total_value);
         fullScreen= (ImageView) findViewById(R.id.fullscreen);//全屏按钮
-        video_introduce= (TextView) findViewById(R.id.video_introduce);//视频简介
-        go_back= (ImageView) findViewById(R.id.go_back);//返回按钮
-        play_top= (LinearLayout) findViewById(R.id.video_top);
+        go_back= (ImageView) findViewById(R.id.video_go_back);//返回按钮
         go_back.setOnClickListener(this);
-        video_introduce.setText("视频名称：\n"+"      "+video_name+"\n"+"视频简介：\n"+"      "+video_intro);
+
         fullScreen.setOnClickListener(this);
         surfaceHolder.addCallback(this);
         surfaceHolder.setFormat(PixelFormat.RGBA_8888);
+        initReviewArea();
+    }
+
+    /**
+     * 初始化评论区部分的代码
+     */
+    private void initReviewArea() {
+        recyclerView= (RecyclerView) findViewById(R.id.review_recycle);
+        send= (Button) findViewById(R.id.send);
+        message= (TextView) findViewById(R.id.message);
+        review_send_area= (LinearLayout) findViewById(R.id.review_send_area);
+        if (null==Information.userInfo){
+            review_send_area.setVisibility(View.GONE);
+        }else {
+            review_send_area.setVisibility(View.VISIBLE);
+        }
+        send.setOnClickListener(this);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this)); //设置水平布局
+        RecyclerViewHeader header=RecyclerViewHeader.fromXml(this,R.layout.videointro_review);
+        video_introduce= (TextView) header.findViewById(R.id.video_introduce);//视频简介
+        video_introduce.setText("视频名称：\n\n" + "      " + video_name + "\n\n" + "视频简介：\n\n" + "      " + video_intro + "\n");
+        header.attachTo(recyclerView);//原理是：通过将原位置的recycleView的部件删掉，然后在其位置创建一个framelayout的布局，里面包裹了头部和recycleview，这样就达到可以滚动的效果
+        recyclerView.addItemDecoration(new Mydivider(VideoPlayActivity.this));
+
+        for (int i=0;i<10;i++){  //初始化一些假数据
+            ReviewBean bean=new ReviewBean();
+            bean.setImage_url("http://v1.qzone.cc/avatar/201407/20/16/01/53cb77623b002304.jpg!200x200.jpg");
+            bean.setPhone("13389034567");
+            bean.setReview_text("this movie is very good "+i+"\n"+"非常好");
+            list.add(bean);
+        }
+        adpter=new ReviewAdpter(this,list);
+        adpter.setReviewCallBack(new ReviewAdpter.ReviewCallBack() {
+            @Override
+            public void callBack(LinearLayout review_area) {  //子评论部分的功能暂未实现
+                Toast.makeText(VideoPlayActivity.this, "该功能暂未开放！", Toast.LENGTH_SHORT).show();
+            }
+        });
+        adpter.setGoodsCallBack(new ReviewAdpter.GoodsCallBack() {  //点击 赞的时候，会出现动画的效果
+            @Override
+            public void callBack(LinearLayout goog_area, int position, List<ReviewBean> list) {
+                //设置点击部分逻辑，这里应该是一个用户只能点击一次
+
+                TextView clik_add= (TextView) goog_area.getChildAt(2);
+                clik_add.setVisibility(View.VISIBLE);
+                AnimationSet animationSet=new AnimationSet(true);//设置动画效果
+                TranslateAnimation translateAnimation=new TranslateAnimation(0,0,0,-20);
+
+                AlphaAnimation alphaAnimation=new AlphaAnimation(0,1);
+
+                ScaleAnimation scaleAnimation=new ScaleAnimation(0,1.5f,0,1.5f);
+
+                animationSet.addAnimation(translateAnimation);
+                animationSet.addAnimation(alphaAnimation);
+                animationSet.addAnimation(scaleAnimation);
+                animationSet.setDuration(200);
+                animationSet.setFillAfter(false);
+                clik_add.startAnimation(animationSet);
+                clik_add.setVisibility(View.INVISIBLE);
+
+                TextView textView= (TextView) goog_area.getChildAt(1);
+                textView.setText(String.valueOf(list.get(position).getGood_num()+1));
+            }
+        });
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setAdapter(adpter);
     }
 
     @Override
@@ -148,6 +234,7 @@ public class VideoPlayActivity extends Activity implements SurfaceHolder.Callbac
                                 runOnUiThread(new Runnable() {  //主线程中运行
                                     @Override
                                     public void run() {
+                                        go_back.setVisibility(View.INVISIBLE);
                                         menu_control.setVisibility(View.INVISIBLE);
                                         fullScreen.setVisibility(View.INVISIBLE);
                                     }
@@ -221,13 +308,12 @@ public class VideoPlayActivity extends Activity implements SurfaceHolder.Callbac
 
                 if (fullscren_click_num%2==0){
                     fullScreen.setImageResource(R.drawable.revoke);  //将暂停按钮换成播放按钮
-                    play_top.setVisibility(View.GONE);
                     mediaPlayer.stop();
                     setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);//设置横屏
                     //设置屏幕大小为全屏
-                     values=WindowsUtill.getScreenWidthAndHeight(this);
+                    values=WindowsUtill.getScreenWidthAndHeight(this);
 
-                   ViewGroup.LayoutParams layoutParams= surfaceView.getLayoutParams();
+                    ViewGroup.LayoutParams layoutParams= surfaceView.getLayoutParams();
                     layoutParams.width=values[0];
                     layoutParams.height=values[1];
                     //隐藏状态栏
@@ -236,7 +322,6 @@ public class VideoPlayActivity extends Activity implements SurfaceHolder.Callbac
                     mediaPlayer.start();
                 }else {
                     fullScreen.setImageResource(R.drawable.screenfull);
-                    play_top.setVisibility(View.VISIBLE);
                     //设置屏幕的为原来样式的大小
                     mediaPlayer.stop();//暂停
                     setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);//设置竖屏
@@ -252,8 +337,25 @@ public class VideoPlayActivity extends Activity implements SurfaceHolder.Callbac
                 }
                 fullscren_click_num++;
                 break;
-            case R.id.go_back:
-                 VideoPlayActivity.this.finish();
+            case R.id.video_go_back://点击返回按钮时
+                VideoPlayActivity.this.finish();
+                break;
+            case R.id.send: //点击发送按钮
+                String mess=  message.getText().toString(); //获取写的信息
+                //实际情况应该是从服务器中获取信息
+                if (!mess.trim().equals("")){
+                    ReviewBean bean=new ReviewBean();
+                    bean.setImage_url(Information.userInfo.getUserAvatar()); //设置头像
+                    bean.setPhone(Information.userInfo.getUserMobile()); //设置手机号
+                    bean.setReview_text(mess);//设置文本内容
+                    bean.setGood_num(0); //设置点击数字
+                    bean.setSend_data("刚刚");
+                    list.add(0, bean);
+                    //  adpter.notifyItemInserted(0); //显示指定插入数据
+                    adpter.notifyDataSetChanged();
+                    message.setText("");//清空输入框数据
+                    //recyclerView.scrollToPosition(0);//将评论position该位第一条
+                }
                 break;
         }
     }
@@ -286,6 +388,7 @@ public class VideoPlayActivity extends Activity implements SurfaceHolder.Callbac
     public boolean onTouchEvent(MotionEvent event) {
         menu_control.setVisibility(View.VISIBLE);
         fullScreen.setVisibility(View.VISIBLE);
+        go_back.setVisibility(View.VISIBLE);
         return true;
     }
 

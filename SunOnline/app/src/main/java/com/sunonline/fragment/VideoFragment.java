@@ -46,10 +46,10 @@ public class VideoFragment extends Fragment implements View.OnTouchListener{
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view= inflater.inflate(R.layout.video_display, null,false);
         initFindView(view);
-        initRecycleAdpter();
         initListView(); //初始化listview
         scroll_image_viewpager.setAdapter(new ScrollPageAdapter());
         scrollView();
+        initRecycleAdpter();
         return view;
     }
 

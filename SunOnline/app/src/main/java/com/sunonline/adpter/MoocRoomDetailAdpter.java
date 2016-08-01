@@ -72,7 +72,12 @@ public class MoocRoomDetailAdpter extends RecyclerView.Adapter <MoocRoomDetailAd
         httpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                Toast.makeText(activity,"信息获取失败！",Toast.LENGTH_SHORT).show();
+               activity.runOnUiThread(new Runnable() {
+                   @Override
+                   public void run() {
+                       Toast.makeText(activity, "信息获取失败！", Toast.LENGTH_SHORT).show();
+                   }
+               });
             }
 
             @Override

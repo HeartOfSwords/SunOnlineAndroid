@@ -58,6 +58,7 @@ public class MoocRecomAdapter extends RecyclerView.Adapter<MoocRecomAdapter.Publ
         public TextView textView; //标题
         public TextView deploy_date;//发布日期
         public TextView click_num;//点击次数
+        public LinearLayout load;//加载中区域
         public PublicTeachViewHolder(View itemView) {
             super(itemView);
             LinearLayout linearLayout= (LinearLayout) itemView;
@@ -66,6 +67,7 @@ public class MoocRecomAdapter extends RecyclerView.Adapter<MoocRecomAdapter.Publ
             textView= (TextView)linearLayout.getChildAt(1);
             deploy_date= (TextView) frameLayout.getChildAt(1);
             click_num= (TextView)frameLayout.getChildAt(2);
+            load= (LinearLayout) frameLayout.getChildAt(3);
             linearLayout.setOnClickListener(this);
         }
         @Override
@@ -111,7 +113,12 @@ public class MoocRecomAdapter extends RecyclerView.Adapter<MoocRecomAdapter.Publ
             httpClient.newCall(request).enqueue(new Callback() {
                 @Override
                 public void onFailure(Call call, IOException e) {
-                    Toast.makeText(context,"加载失败！",Toast.LENGTH_SHORT).show();
+                    context.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(context, "加载失败！", Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
 
                 @Override
@@ -124,6 +131,7 @@ public class MoocRecomAdapter extends RecyclerView.Adapter<MoocRecomAdapter.Publ
                     context.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+                            holder.load.setVisibility(View.INVISIBLE);
                             holder.imageView.setImageBitmap(
                                     bitmap);
                         }

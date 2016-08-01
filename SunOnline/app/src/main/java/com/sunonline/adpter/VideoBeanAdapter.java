@@ -57,6 +57,7 @@ public class VideoBeanAdapter extends RecyclerView.Adapter<VideoBeanAdapter.Publ
         public TextView textView; //标题
         public TextView deploy_date;//发布日期
         public TextView click_num;//点击次数
+        public LinearLayout load;//加载中区域
         public PublicTeachViewHolder(View itemView) {
             super(itemView);
             LinearLayout linearLayout= (LinearLayout) itemView;
@@ -65,6 +66,7 @@ public class VideoBeanAdapter extends RecyclerView.Adapter<VideoBeanAdapter.Publ
             textView= (TextView)linearLayout.getChildAt(1);
             deploy_date= (TextView) frameLayout.getChildAt(1);
             click_num= (TextView)frameLayout.getChildAt(2);
+            load= (LinearLayout) frameLayout.getChildAt(3);
             linearLayout.setOnClickListener(this);
         }
 
@@ -121,11 +123,12 @@ public class VideoBeanAdapter extends RecyclerView.Adapter<VideoBeanAdapter.Publ
                     InputStream inputStream = response.body().byteStream();
                     BitmapFactory.Options options=new BitmapFactory.Options();
                     options.inJustDecodeBounds=false;
-                    options.inSampleSize=10;
+                    options.inSampleSize=2;
                     final Bitmap bitmap = BitmapFactory.decodeStream(inputStream,null,options);
                     context.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+                            holder.load.setVisibility(View.INVISIBLE);
                             holder.imageView.setImageBitmap(
                                     bitmap);
                         }

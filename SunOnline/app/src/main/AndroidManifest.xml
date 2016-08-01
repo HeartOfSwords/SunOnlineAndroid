@@ -59,25 +59,6 @@
 
         </receiver>
 
-        <!--下面的是测试用到-->
-        <activity android:name="com.test.PaserHtml">
-
-
-        </activity>
-
-        <activity android:name="com.test.SwipeLayoutActivity1">
-
-        </activity>
-
-        <activity android:name="com.test.SwipeLayoutActivity2">
-
-
-        </activity>
-
-        <activity android:name="com.test.testActivity">
-
-        </activity>
-
     </application>
 
 </manifest>
