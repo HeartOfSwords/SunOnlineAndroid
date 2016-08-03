@@ -19,6 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.sunonline.application.R;
 import com.sunonline.bean.MoocRoomDetail;
 
@@ -67,34 +68,11 @@ public class MoocRoomDetailAdpter extends RecyclerView.Adapter <MoocRoomDetailAd
     public void onBindViewHolder(final MoocRoomDetailHolder holder, int position) {
         MoocRoomDetail moocRoomDetail= list.get(position);
         String pic_url=moocRoomDetail.getC_pic_url();
-        OkHttpClient httpClient=new OkHttpClient();
-        Request request=new Request.Builder().url(pic_url).build();
-        httpClient.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-               activity.runOnUiThread(new Runnable() {
-                   @Override
-                   public void run() {
-                       Toast.makeText(activity, "信息获取失败！", Toast.LENGTH_SHORT).show();
-                   }
-               });
-            }
 
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                InputStream inputStream= response.body().byteStream();
-                BitmapFactory.Options options=new BitmapFactory.Options();
-                options.inJustDecodeBounds=false;
-                options.inSampleSize=10;
-                final Bitmap bitmap= BitmapFactory.decodeStream(inputStream,null,options);
-                activity.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        holder.course_icon.setImageBitmap(bitmap);
-                    }
-                });
-            }
-        });
+        Glide.with(activity)
+                .load(pic_url)
+                .into(holder.course_icon);
+
         holder.course_intro.setText("课程名称：" + moocRoomDetail.getC_name() + "\n" + "课程介绍：" + moocRoomDetail.getC_introduce());
         holder.teacher.setText(moocRoomDetail.getC_teacher_name());
     }

@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,6 +55,7 @@ public class MyInfoFragment extends Fragment implements View.OnClickListener{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view= inflater.inflate(R.layout.myinfo, null,false);
+        Log.d("MyInfoFragment","have execute!");
         my_info_all= (RelativeLayout) view.findViewById(R.id.my_info_all);
         user_info_go_login_area= (LinearLayout) view.findViewById(R.id.user_info_go_login_area);
         myinfo_login= (Button)view.findViewById(R.id.myinfo_login);
@@ -106,6 +108,9 @@ public class MyInfoFragment extends Fragment implements View.OnClickListener{
         //设置用户昵称
         my_info_area_user_name.setText(Information.userInfo.getUsernickName());
         //设置用户图片
+
+        my_info_area_user_email.setText(Information.userInfo.getUserEmail());
+        my_info_area_user_phone.setText(Information.userInfo.getUserMobile());
         CircleImage.setImageResourse(getActivity(),Information.userInfo.getUserAvatar(), my_info_area_user_image, R.drawable.c);
     }
 
@@ -148,13 +153,16 @@ public class MyInfoFragment extends Fragment implements View.OnClickListener{
             //执行=》 设置图像和文字，同时将账号和密码存入sharpreference中,两个地方需要更改
             Information.IS_LOGIN=true;
             UserInfo userInfo= (UserInfo) data.getSerializableExtra("UserInfo");
+            Information.userInfo=null;
             Information.userInfo=userInfo;
             switchLogin();
         }else if (requestCode==2){ //修改信息成功后执行
             my_info_area_user_name.setText(Information.userInfo.getUsernickName());
             my_info_area_user_email.setText(Information.userInfo.getUserEmail());
+
             CircleImage.setImageResourse(getActivity(), Information.userInfo.getUserAvatar(), my_info_area_user_image, R.drawable.c);
             my_info_area_user_email.setText(Information.userInfo.getUserEmail());
+            my_info_area_user_phone.setText(Information.userInfo.getUserMobile());
             MainActivity activity2= (MainActivity) getActivity();
             activity2.updateUserInfo();
         }

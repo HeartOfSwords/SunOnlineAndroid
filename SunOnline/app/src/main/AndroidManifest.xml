@@ -8,6 +8,7 @@
         android:icon="@drawable/logo"
         android:label="sunOnline"
         android:supportsRtl="true"
+        android:largeHeap="true"
         android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
         <activity
             android:name="io.vov.vitamio.activity.InitActivity"

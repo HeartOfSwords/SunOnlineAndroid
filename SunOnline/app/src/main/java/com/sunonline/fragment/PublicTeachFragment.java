@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +30,7 @@ public class PublicTeachFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view= inflater.inflate(R.layout.public_teach_second_page, null, false);
+        Log.d("PublicTeachFragment","have exec!");
         soft_devlop= (RecyclerView) view.findViewById(R.id.soft_devlop);
         mediasAfter= (RecyclerView) view.findViewById(R.id.mediasAfter);
         radioInterview= (RecyclerView) view.findViewById(R.id.radioInterview);
