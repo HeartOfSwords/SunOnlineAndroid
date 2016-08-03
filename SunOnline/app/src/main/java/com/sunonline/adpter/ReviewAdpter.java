@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.meg7.widget.CustomShapeImageView;
 import com.sunonline.application.R;
 import com.sunonline.bean.ReviewBean;
@@ -67,38 +68,11 @@ public class ReviewAdpter extends RecyclerView.Adapter<ReviewAdpter.MyHolder> {
         holder.persion_review_area.setText(list.get(position).getReview_text());
         holder.goods_num.setText(String.valueOf(list.get(position).getGood_num()));
         holder.send_date.setText(list.get(position).getSend_data());
-        holder.layer_num.setText((list.size()-position)+"楼");
+        holder.layer_num.setText((list.size() - position) + "楼");
         final String url=list.get(position).getImage_url();
-        new Thread(){
-            @Override
-            public void run() {
-                OkHttpClient httpClient=new OkHttpClient();
-                Request request=new Request.Builder()
-                        .url(url)
-                        .get()
-                        .build();
-                httpClient.newCall(request).enqueue(new Callback() {
-                    @Override
-                    public void onFailure(Call call, IOException e) {
-
-                    }
-
-                    @Override
-                    public void onResponse(Call call, Response response) throws IOException {
-                        InputStream inputStream= response.body().byteStream();
-                        final Bitmap bitmap= BitmapFactory.decodeStream(inputStream);
-                        context.runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                holder.persion_head_image.setImageBitmap(bitmap);
-                            }
-                        });
-                    }
-                });
-
-
-            }
-        }.start();
+        Glide.with(context)
+                .load(url)
+                .into(holder.persion_head_image);
 
     }
 

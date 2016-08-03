@@ -9,6 +9,9 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.SwitchCompat;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -95,8 +98,36 @@ public class LoginActivity extends Activity implements View.OnClickListener,View
         register_email.setOnFocusChangeListener(this);
         register_phone.setOnFocusChangeListener(this);
         register_enter_password.setOnFocusChangeListener(this);
+        register_enter_password.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.toString().equals(register_pass_string)){
+                    changeDirectImage(register_enter_password_img,R.drawable.ok);
+                    judge[3]=true;
+                }else {
+                    judge[3]=false;
+                }
+                setButtonIsEnabled(register_btn,true);
+                for (boolean is_pass:judge){
+                    if (is_pass==false){
+                        setButtonIsEnabled(register_btn,false);
+                    }
+                }
+            }
+        });
         register_password.setOnFocusChangeListener(this);
 
+        Log.d("max_memory", String.valueOf(Runtime.getRuntime().maxMemory()/1024));
 
     }
 
@@ -252,8 +283,9 @@ public class LoginActivity extends Activity implements View.OnClickListener,View
 
                     }
                 });
-
-
+                for (int i=0;i<judge.length;i++){
+                    judge[i]=false;
+                }
                 break;
 
         }
@@ -349,7 +381,7 @@ public class LoginActivity extends Activity implements View.OnClickListener,View
 
             case R.id.register_enter_password:
                 register_enter_pass_string=register_enter_password.getText().toString().trim();
-                if (null!=register_enter_pass_string&&""!=register_enter_pass_string&&register_enter_pass_string.equals(register_pass_string)){
+                if (null!=register_enter_pass_string&&!"".equals(register_enter_pass_string)&&register_enter_pass_string.equals(register_pass_string)){
                     changeDirectImage(register_enter_password_img,R.drawable.ok);
                     judge[3]=true;
                 }else {

@@ -16,6 +16,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.sunonline.application.R;
 import com.sunonline.bean.MoocRecom;
 
@@ -105,43 +108,22 @@ public class MoocRecomAdapter extends RecyclerView.Adapter<MoocRecomAdapter.Publ
         MoocRecom moocRecom=  list.get(position);
         Log.d("message",moocRecom.getCl_name());
         String pic_url=  moocRecom.getCl_pic_url();
+        SimpleTarget<Bitmap> target=new SimpleTarget<Bitmap>() {
+            @Override
+            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                holder.load.setVisibility(View.INVISIBLE);
+                holder.imageView.setImageBitmap(resource);
+            }
+        };
         if (pic_url!=null&&!pic_url.trim().equals("")){
-            OkHttpClient httpClient=new OkHttpClient();
-            Request request=new Request.Builder()
-                    .url(pic_url)
-                    .build();
-            httpClient.newCall(request).enqueue(new Callback() {
-                @Override
-                public void onFailure(Call call, IOException e) {
-                    context.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Toast.makeText(context, "加载失败！", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                }
+            Glide.with(context)
+                    .load(pic_url)
+                    .asBitmap()
+                    .override(100, 50)
+                    .into(target);
 
-                @Override
-                public void onResponse(Call call, Response response) throws IOException {
-                    InputStream inputStream=  response.body().byteStream();
-                    BitmapFactory.Options options=new BitmapFactory.Options();
-                    options.inJustDecodeBounds=false;
-                    options.inSampleSize=10;
-                    final Bitmap bitmap=BitmapFactory.decodeStream(inputStream,null,options);
-                    context.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            holder.load.setVisibility(View.INVISIBLE);
-                            holder.imageView.setImageBitmap(
-                                    bitmap);
-                        }
-                    });
-
-                }
-            });
         }
-        holder.click_num.setText("播放："+String.valueOf(moocRecom.getCl_play_time()));
-        Log.d("message","播放");
+        holder.click_num.setText("播放：" + String.valueOf(moocRecom.getCl_play_time()));
         holder.deploy_date.setText(moocRecom.getCl_upload_time());
         holder.textView.setText(moocRecom.getCl_name());
 
